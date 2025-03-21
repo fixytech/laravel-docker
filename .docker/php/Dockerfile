@@ -9,7 +9,7 @@ COPY entrypoint.sh /usr/local/bin/entrypoint.sh
 RUN chmod +x /usr/local/bin/entrypoint.sh
 
 # mix
-RUN apt-get update \
+RUN apt-get update --allow-releaseinfo-change \
   && apt-get install -y build-essential zlib1g-dev default-mysql-client curl gnupg procps vim git unzip libzip-dev libpq-dev \
   && docker-php-ext-install zip pdo_mysql pdo_pgsql pgsql
 
@@ -28,6 +28,10 @@ RUN pecl install redis && docker-php-ext-enable redis
 
 # pcov
 RUN pecl install pcov && docker-php-ext-enable pcov
+
+# xml
+RUN apt-get install -y libxml2-dev \
+  && docker-php-ext-install xml
 
 # Xdebug
 # RUN pecl install xdebug \
